@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SkyRoute | Traveller account</title>
+  <meta name="description" content="Create or access your local SkyRoute account.">
+  <link rel="icon" href="images/mark.svg">
+  <link rel="stylesheet" href="vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <a class="visually-hidden-focusable skip-link" href="#main-content">Skip to main content</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Main navigation">
+    <div class="container">
+      <a class="navbar-brand" href="index.html"><img src="images/mark.svg" alt="" width="32" height="32">SkyRoute</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="destinations.html">Destinations</a></li>
+          <li class="nav-item"><a class="nav-link" href="booking.html">Book a flight</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="account.html">Account</a></li>
+          <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <main id="main-content" class="container py-4 py-lg-5">
+    <p class="section-kicker">Traveller account</p><h1 class="page-title">Your account</h1>
+    <p class="text-secondary mb-4">Keep demo bookings in this browser. Use a fictional email and a password created for this project.</p>
+    <div class="row g-4 align-items-start"><div class="col-lg-5">
+      <section class="surface p-4" aria-labelledby="login-heading">
+        <h2 id="login-heading" class="h4 mb-3">Log in</h2>
+        <p id="account-notice" role="status" hidden></p>
+        <form id="login-form" novalidate>
+          <div class="mb-3">
+          <label class="form-label" for="login-email">Email</label>
+          <input class="form-control" id="login-email" type="text" autocomplete="username" inputmode="email">
+        </div>
+          <div class="mb-3">
+          <label class="form-label" for="login-password">Password</label>
+          <input class="form-control" id="login-password" type="password" autocomplete="current-password">
+        </div>
+          <p id="login-status" role="status"></p>
+          <button class="btn btn-primary" type="submit">Log in</button>
+        </form>
+      </section>
+    </div><div class="col-lg-7">
+      <section id="signup" class="surface p-4" aria-labelledby="signup-heading">
+        <h2 id="signup-heading" class="h4 mb-3">Create an account</h2>
+        <form id="signup-form" novalidate>
+          <div class="mb-3">
+          <label class="form-label" for="su-name">Full name</label>
+          <input class="form-control" id="su-name" type="text" autocomplete="name">
+        </div>
+          <div class="row"><div class="col-md-6"><div class="mb-3">
+          <label class="form-label" for="su-email">Email</label>
+          <input class="form-control" id="su-email" type="text" autocomplete="email" inputmode="email">
+        </div></div>
+          <div class="col-md-6"><div class="mb-3">
+          <label class="form-label" for="su-phone">Phone number</label>
+          <input class="form-control" id="su-phone" type="tel" autocomplete="tel" aria-describedby="su-phone-hint">
+          <div class="form-text" id="su-phone-hint">Use a country code, e.g. +7 700 123 4567.</div>
+        </div></div></div>
+          <div class="mb-3">
+          <label class="form-label" for="su-password">Create password</label>
+          <input class="form-control" id="su-password" type="password" autocomplete="new-password" aria-describedby="su-password-hint">
+          <div class="form-text" id="su-password-hint">At least 8 characters with a letter and a number.</div>
+        </div>
+          <div class="mb-3">
+          <label class="form-label" for="su-confirm">Confirm password</label>
+          <input class="form-control" id="su-confirm" type="password" autocomplete="new-password">
+        </div>
+          <p id="signup-status" role="status"></p>
+          <button class="btn btn-primary" type="submit">Create account</button>
+        </form>
+      </section>
+    </div></div>
+  </main>
+  <footer class="border-top py-4 px-2 mt-auto text-center text-secondary small">
+    <p class="mb-1 fw-semibold">SkyRoute &middot; Web Technologies &middot; SE-2502</p>
+    <p class="mb-0">Almukhan Abdrakhman &amp; Tasbolat Kagan</p>
+  </footer>
+  <script src="vendor/bootstrap.bundle.min.js"></script>
+  <script src="vendor/jquery.min.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/accounts.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/account.js"></script>
+</body>
+</html>

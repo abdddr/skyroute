@@ -1,7 +1,4 @@
-/* about.js - About page (owner: Abdrakhman Almukhan)
-   Task 1: sign-up form validation (required fields, email format, password rules, confirmation)
-   Task 2: FAQ accordion (answers hidden by default, click to show or hide, smooth transition)
-   Also: contact form validation (demo: nothing is sent). */
+/* About, frequently asked questions and the local enquiry demonstration. */
 (function () {
   'use strict';
 
@@ -49,95 +46,6 @@
     alertEl.focus();
   }
 
-  // Marks a field valid or invalid and writes the message under it
-  function setError(input, message) {
-    var out = document.getElementById(input.id + '-error');
-    if (message) {
-      input.classList.add('is-invalid');
-      input.classList.remove('is-valid');
-      input.setAttribute('aria-invalid', 'true');
-      if (out) { out.textContent = message; }
-    } else {
-      input.classList.remove('is-invalid');
-      input.classList.add('is-valid');
-      input.removeAttribute('aria-invalid');
-      if (out) { out.textContent = ''; }
-    }
-    return !message;
-  }
-
-  var EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-  /* =====================================================
-     Task 1. Sign-up form validation
-     ===================================================== */
-  var signup = document.getElementById('signup-form');
-  if (signup) {
-    var suName = document.getElementById('su-name');
-    var suEmail = document.getElementById('su-email');
-    var suPass = document.getElementById('su-password');
-    var suConfirm = document.getElementById('su-confirm');
-    var suAlert = document.getElementById('signup-alert');
-
-    var checkName = function () {
-      var v = suName.value.trim();
-      if (!v) { return setError(suName, 'Please enter your full name.'); }
-      if (v.length < 2) { return setError(suName, 'Your name must be at least 2 characters long.'); }
-      return setError(suName, '');
-    };
-    var checkEmail = function () {
-      var v = suEmail.value.trim();
-      if (!v) { return setError(suEmail, 'Please enter your email address.'); }
-      if (!EMAIL_PATTERN.test(v)) { return setError(suEmail, 'Enter a valid email address, for example name@example.com.'); }
-      return setError(suEmail, '');
-    };
-    var checkPassword = function () {
-      var v = suPass.value;
-      if (!v) { return setError(suPass, 'Please enter a password.'); }
-      if (v.length < 8) { return setError(suPass, 'The password must be at least 8 characters long (now ' + v.length + ').'); }
-      if (!/[A-Za-z]/.test(v) || !/[0-9]/.test(v)) { return setError(suPass, 'The password must contain at least one letter and one number.'); }
-      return setError(suPass, '');
-    };
-    var checkConfirm = function () {
-      var v = suConfirm.value;
-      if (!v) { return setError(suConfirm, 'Please confirm your password.'); }
-      if (v !== suPass.value) { return setError(suConfirm, 'The passwords do not match.'); }
-      return setError(suConfirm, '');
-    };
-
-    // Live feedback once the user leaves a field, and while fixing a field that is already wrong
-    [[suName, checkName], [suEmail, checkEmail], [suPass, checkPassword], [suConfirm, checkConfirm]].forEach(function (pair) {
-      pair[0].addEventListener('blur', pair[1]);
-      pair[0].addEventListener('input', function () {
-        if (pair[0].classList.contains('is-invalid')) { pair[1](); }
-      });
-    });
-    suPass.addEventListener('input', function () {
-      if (suConfirm.value) { checkConfirm(); }
-    });
-
-    signup.addEventListener('submit', function (event) {
-      event.preventDefault();
-      var results = [checkName(), checkEmail(), checkPassword(), checkConfirm()];
-      if (results.indexOf(false) !== -1) {
-        showAlert(suAlert, 'danger', 'Please correct the highlighted fields.');
-        var firstBad = signup.querySelector('.is-invalid');
-        if (firstBad) { firstBad.focus(); }
-        return;
-      }
-      showAlert(suAlert, 'success', 'Account created for ' + suName.value.trim() + '! This is a demo project, so nothing was saved or sent.');
-      signup.reset();
-      Array.prototype.forEach.call(signup.querySelectorAll('.is-valid, .is-invalid'), function (f) {
-        f.classList.remove('is-valid', 'is-invalid');
-      });
-    });
-  }
-
-  /* =====================================================
-     Assignment 5. Star rating
-     querySelectorAll selects all the stars; clicking one colours it and every
-     star before it, and the message below changes with a switch statement.
-     ===================================================== */
   var stars = document.querySelectorAll('.star-btn');
   var ratingMessage = document.getElementById('rating-message');
 
@@ -181,69 +89,28 @@
     star.addEventListener('blur', function () { paintStars(rating); });
   });
 
-  /* =====================================================
-     Assignment 5. Contact form: asynchronous submit with fetch + callback
-     sendMessage() posts the data and calls the callback with (error, result);
-     the page shows the result without reloading.
-     ===================================================== */
-  // jsonplaceholder is a free test API: it accepts a POST and answers with the data plus an id
-  var CONTACT_ENDPOINT = 'https://jsonplaceholder.typicode.com/posts';
+  var contact = document.getElementById('contact-form');
+  contact.addEventListener('submit', function (event) {
+    event.preventDefault();
+    showAlert(document.getElementById('contact-alert'), 'success',
+      'Enquiry checked. Your message and contact details stayed in this browser.');
+    contact.reset();
+  });
 
-  function sendMessage(payload, callback) {
-    fetch(CONTACT_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-      body: JSON.stringify(payload)
-    })
-      .then(function (response) {
-        if (!response.ok) { throw new Error('Server answered ' + response.status); }
-        return response.json();
-      })
-      .then(function (data) { callback(null, data); })
-      .catch(function (error) { callback(error); });
-  }
-
-  var form = document.getElementById('contact-form');
-  var box = document.getElementById('contact-alert');
-  if (form && box) {
-    var sendBtn = form.querySelector('button[type="submit"]');
-
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-      if (!form.checkValidity()) {
-        form.classList.add('was-validated');
-        showAlert(box, 'danger', 'Please correct the highlighted fields.');
-        if (window.SkyRoute) { window.SkyRoute.playSound('error'); }
-        var firstBad = form.querySelector(':invalid');
-        if (firstBad) { firstBad.focus(); }
-        return;
-      }
-      var name = document.getElementById('contact-name').value.trim();
-      var payload = {
-        title: document.getElementById('contact-topic').value,
-        body: document.getElementById('contact-message').value.trim(),
-        name: name,
-        email: document.getElementById('contact-email').value.trim()
-      };
-
-      sendBtn.disabled = true;
-      sendBtn.textContent = 'Sending...';
-
-      // The callback runs when the request finishes, successfully or not
-      sendMessage(payload, function (error, data) {
-        sendBtn.disabled = false;
-        sendBtn.textContent = 'Send message';
-        if (error) {
-          showAlert(box, 'danger', 'Sorry, ' + name + ', the message could not be sent (' + error.message + '). Please try again.');
-          if (window.SkyRoute) { window.SkyRoute.playSound('error'); }
-          return;
-        }
-        showAlert(box, 'success', 'Thank you, ' + name + '! Your message was sent (test reference #' + data.id + '). This is a demo, so nobody will read it.');
-        box.firstChild.classList.add('bounce-in');
-        if (window.SkyRoute) { window.SkyRoute.playSound('success'); }
-        form.classList.remove('was-validated');
-        form.reset();
-      });
+  var search = document.getElementById('faq-search');
+  var status = document.createElement('p');
+  status.setAttribute('role', 'status');
+  search.parentElement.append(status);
+  search.addEventListener('input', function () {
+    var term = search.value.trim().toLowerCase();
+    var count = 0;
+    questions.forEach(function (button) {
+      var item = button.closest('.faq-item');
+      var matches = item.textContent.toLowerCase().includes(term);
+      item.hidden = !matches;
+      setOpen(button, matches && Boolean(term));
+      if (matches) count++;
     });
-  }
+    status.textContent = term && !count ? 'No matching answers. Try another word.' : '';
+  });
 }());

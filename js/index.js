@@ -1,47 +1,19 @@
-/* index.js - search form on the home page (owner: Kagan Tasbolat)
-   - sets today's date as the earliest date
-   - enables the return date only for round trips
-   - makes sure the return date is not before the departure date */
+/* Search, subscription dialog, local clock and travel tips. */
 (function () {
   'use strict';
-
-  var depart = document.getElementById('depart');
   var ret = document.getElementById('return');
-  var oneway = document.getElementById('trip-oneway');
   var round = document.getElementById('trip-round');
-  if (!depart || !ret || !oneway || !round) { return; }
-
-  // Local date as YYYY-MM-DD (toISOString would use UTC and can be off by a day)
-  function today() {
-    var d = new Date();
-    var m = String(d.getMonth() + 1).padStart(2, '0');
-    var day = String(d.getDate()).padStart(2, '0');
-    return d.getFullYear() + '-' + m + '-' + day;
-  }
-
   function syncDates() {
-    var isRound = round.checked;
-    ret.disabled = !isRound;
-    ret.required = isRound;
-    if (!isRound) { ret.value = ''; }
-    ret.min = depart.value || today();
-    ret.setCustomValidity(
-      isRound && ret.value && depart.value && ret.value < depart.value
-        ? 'Return date cannot be before the departure date.'
-        : ''
-    );
+    ret.disabled = !round.checked;
+    if (ret.disabled) ret.value = '';
   }
-
-  depart.min = today();
-  oneway.addEventListener('change', syncDates);
+  document.getElementById('trip-oneway').addEventListener('change', syncDates);
   round.addEventListener('change', syncDates);
-  depart.addEventListener('change', syncDates);
-  ret.addEventListener('change', syncDates);
   syncDates();
 }());
 
 /* ---------------------------------------------------------
-   Tasks 3, 4 and 5 (owner: Kagan Tasbolat)
+   Tasks 3, 4 and 5 (owner: Tasbolat Kagan)
    Task 3: subscription pop-up   Task 4: background colour   Task 5: date and time
    --------------------------------------------------------- */
 (function () {
@@ -113,28 +85,15 @@
     if (event.key === 'Escape' && !overlay.hidden) { closePopup(); }
   });
 
-  function mark(input, ok) {
-    input.classList.toggle('is-invalid', !ok);
-    input.classList.toggle('is-valid', ok);
-    return ok;
-  }
-
   subForm.addEventListener('submit', function (event) {
     event.preventDefault();
-    var okName = mark(subName, subName.value.trim().length >= 2);
-    var okEmail = mark(subEmail, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(subEmail.value.trim()));
-    if (!okName || !okEmail) {
-      (okName ? subEmail : subName).focus();
-      return;
-    }
     subAlert.replaceChildren();
     var done = document.createElement('div');
     done.className = 'alert alert-success';
     done.textContent = 'Thank you, ' + subName.value.trim() + '! You are subscribed (demo: nothing was sent).';
     subAlert.appendChild(done);
     subForm.reset();
-    subName.classList.remove('is-valid');
-    subEmail.classList.remove('is-valid');
+
   });
 }());
 
@@ -143,20 +102,6 @@
    --------------------------------------------------------- */
 (function () {
   'use strict';
-
-  /* ---------- Greeting: a switch on the current hour ---------- */
-  var greeting = document.getElementById('greeting');
-  if (greeting) {
-    var hour = new Date().getHours();
-    var part;
-    switch (true) {
-      case hour >= 5 && hour < 12:  part = 'Good morning'; break;
-      case hour >= 12 && hour < 18: part = 'Good afternoon'; break;
-      case hour >= 18 && hour < 23: part = 'Good evening'; break;
-      default:                      part = 'Good night';
-    }
-    greeting.textContent = part + ', traveller! Where to next?';
-  }
 
   /* ---------- Travel tips: array of objects + loop + higher-order function ---------- */
   var tipText = document.getElementById('tip-text');

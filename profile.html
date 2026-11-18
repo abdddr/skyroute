@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SkyRoute | Traveller profile</title>
+  <meta name="description" content="Review your traveller details and saved demo bookings.">
+  <link rel="icon" href="images/mark.svg">
+  <link rel="stylesheet" href="vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <a class="visually-hidden-focusable skip-link" href="#main-content">Skip to main content</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Main navigation">
+    <div class="container">
+      <a class="navbar-brand" href="index.html"><img src="images/mark.svg" alt="" width="32" height="32">SkyRoute</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="destinations.html">Destinations</a></li>
+          <li class="nav-item"><a class="nav-link" href="booking.html">Book a flight</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="account.html">Account</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="profile.html">Profile</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <main id="main-content" class="container py-4 py-lg-5">
+    <p class="section-kicker">Traveller account</p><h1 class="page-title">Your profile</h1>
+    <div id="profile-content" hidden>
+      <div class="row g-4"><div class="col-lg-5"><section class="surface p-4" aria-labelledby="details-heading">
+        <h2 class="h4 mb-4" id="details-heading">Traveller details</h2>
+        <dl class="profile-details"><dt>Full name</dt><dd id="profile-name"></dd><dt>Email</dt><dd id="profile-email"></dd><dt>Phone number</dt><dd id="profile-phone"></dd></dl>
+        <button class="btn btn-outline-secondary" type="button" id="logout">Log out</button>
+      </section></div><div class="col-lg-7"><section class="surface p-4" aria-labelledby="trips-heading">
+        <h2 class="h4" id="trips-heading">My demo bookings</h2><div id="profile-trips" class="my-3"></div>
+        <a class="btn btn-primary" href="booking.html">Find a flight</a>
+      </section></div></div>
+    </div>
+  </main>
+  <footer class="border-top py-4 px-2 mt-auto text-center text-secondary small">
+    <p class="mb-1 fw-semibold">SkyRoute &middot; Web Technologies &middot; SE-2502</p>
+    <p class="mb-0">Almukhan Abdrakhman &amp; Tasbolat Kagan</p>
+  </footer>
+  <script src="vendor/bootstrap.bundle.min.js"></script>
+  <script src="vendor/jquery.min.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/accounts.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

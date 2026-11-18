@@ -249,3 +249,65 @@ body, .bg-light, .bg-white, .card, .form-control, .form-select {
 .sr-toast { position: fixed; right: 1rem; bottom: 1rem; z-index: 2100; max-width: 340px; padding: .85rem 1rem; color: #fff; background: #146c43; border-radius: .5rem; box-shadow: 0 .75rem 1.5rem rgba(0,0,0,.2); }
 .copy-btn.copied { color: #fff; background: #146c43; border-color: #146c43; }
 .spinner-border-sm { width: 1rem; height: 1rem; }
+
+/* Final project layout, shared by the route directory, booking and account pages. */
+:root {
+  --route-navy: #102c40;
+  --route-teal: #176775;
+  --route-surface: #ffffff;
+  --route-border: #cfdae0;
+  --route-soft: #eff5f6;
+}
+[data-bs-theme="dark"] {
+  --route-teal: #9de6ec;
+  --route-surface: #212b32;
+  --route-border: #43515b;
+  --route-soft: #1c343a;
+}
+body { line-height: 1.55; }
+.navbar.bg-dark { background-color: var(--route-navy) !important; }
+.navbar { min-height: 66px; }
+.navbar-brand { display: inline-flex; gap: .6rem; align-items: center; font-weight: 750; letter-spacing: -.04em; }
+.navbar .nav-link { color: #c4d7df; font-weight: 500; }
+.navbar .nav-link.active, .navbar .nav-link:hover { color: #fff; }
+.navbar .nav-link.active { text-decoration: underline; text-decoration-color: #9de6ec; text-underline-offset: .45rem; }
+.route-hero {
+  display: grid;
+  align-items: center;
+  min-height: clamp(330px, 36vw, 480px);
+  color: white;
+  background: linear-gradient(90deg, #0c2337 0%, rgba(12,35,55,.96) 31%,rgba(12,35,55,.44) 62%,rgba(12,35,55,.04) 100%), url('../images/almaty.svg') center 54% / cover;
+}
+.hero-content { padding-block: 3rem; }
+.section-kicker { font-size: .77rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; color: var(--route-teal); margin: 0 0 .65rem; }
+.route-hero .section-kicker {color: #b2eff1;}
+.route-hero h1 { font-size: clamp(3rem,6vw,5.45rem); font-weight: 730; line-height: .98; letter-spacing: -.06em; margin: 0 0 1rem; }
+.hero-intro { max-width: 33rem; font-size: clamp(1rem,1.45vw,1.17rem); margin-bottom: 1.25rem; }
+.page-title { font-size: clamp(2.25rem, 4vw, 3.25rem); line-height: 1.04; letter-spacing: -.055em; margin: 0 0 .9rem; font-weight: 720; }
+h2, h3 { letter-spacing: -.025em; }
+.surface, .search-panel, .weather-panel { background: var(--route-surface); border: 1px solid var(--route-border); border-radius: .8rem !important; }
+.weather-panel { display: flex; align-items: end; gap: .85rem; justify-content: space-between; padding: 1.25rem 1.5rem; background: var(--route-soft); border-left: 4px solid var(--route-teal); }
+.weather-panel a {white-space: nowrap;}
+.profile-details dd { overflow-wrap: anywhere; margin-bottom: .85rem; }
+.profile-details dt { font-size: .82rem; color: var(--route-teal); }
+.saved-trip { border-left: 3px solid var(--route-teal); padding: .6rem 1rem; background: var(--route-soft); border-radius: .4rem; margin-bottom: .65rem; }
+.saved-trip p { margin-bottom: .4rem; }
+.card, .carousel-inner { overflow: hidden; border-radius: .7rem; }
+.card .card-body { padding: 1.15rem; }
+#scroll-progress { height: 3px; background: #269aab; box-shadow: none; pointer-events: none; }
+.carousel-caption { color: #fff !important; }
+[data-bs-theme="dark"] .carousel-control-prev-icon, [data-bs-theme="dark"] .carousel-control-next-icon { filter: none; }
+[data-bs-theme="dark"] .carousel-indicators [data-bs-target] { background-color: white; }
+.btn { transition: background-color .18s, color .18s, box-shadow .18s, transform .18s; }
+.btn:active { transform: translateY(1px); }
+input[type="date"] { min-width: 0; }
+[hidden] { display: none !important; }
+@media (max-width: 767px) {
+  .route-hero { background-position: center, 62% center; }
+  .route-hero .hero-content { background: linear-gradient(90deg, rgba(12,35,55,.79), rgba(12,35,55,.44)); }
+  .weather-panel { align-items: start; flex-direction: column; }
+  .ticket-stub { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; }
+}

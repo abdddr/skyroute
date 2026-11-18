@@ -1,4 +1,4 @@
-/* booking.js - results + passenger form on the Booking page (owner: Abdrakhman Almukhan)
+/* booking.js - results + passenger form on the Booking page (owner: Almukhan Abdrakhman)
    1. reads the search from the URL (?destination=Almaty&passengers=2 ...)
    2. builds three nonstop flights from Astana to that destination
    3. lets the user choose one, shows a live total, and confirms the booking */
@@ -45,7 +45,7 @@
   /* ---------- Helpers ---------- */
   function keyFromName(text) {
     var key = String(text).split('(')[0].trim().toLowerCase();
-    return DESTINATIONS[key] ? key : null;
+    return Object.prototype.hasOwnProperty.call(DESTINATIONS, key) ? key : null;
   }
   function clampPax(value) {
     var n = parseInt(value, 10);
@@ -287,6 +287,7 @@
         b.classList.toggle('active', on);
         b.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
+      clearAlert();
       renderFlights();
     });
   }
@@ -295,13 +296,7 @@
   var resetBtn = document.getElementById('reset-booking');
   if (resetBtn) {
     resetBtn.addEventListener('click', function () {
-      bookingForm.querySelectorAll('input[type="text"], input[type="email"]').forEach(function (input) {
-        input.value = '';
-      });
-      bookingForm.querySelectorAll('input[type="checkbox"]').forEach(function (box) { box.checked = false; });
-      document.getElementById('meal-standard').checked = true;
-      document.getElementById('seat').value = 'window';
-      bookingForm.classList.remove('was-validated');
+      bookingForm.reset();
       clearAlert();
       updateSummary();
       document.getElementById('fullname').focus();
@@ -316,21 +311,24 @@
       showAlert('danger', 'Please choose a flight above before confirming your booking.');
       return;
     }
-    if (!bookingForm.checkValidity()) {
-      bookingForm.classList.add('was-validated');
-      showAlert('danger', 'Please correct the highlighted fields.');
-      var firstBad = bookingForm.querySelector(':invalid');
-      if (firstBad) { firstBad.focus(); }
-      return;
-    }
-
-    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    var ref = 'SR-';
-    for (var i = 0; i < 6; i += 1) { ref += chars.charAt(Math.floor(Math.random() * chars.length)); }
+    var ref = 'SR-' + Array.from(crypto.getRandomValues(new Uint8Array(5)), function (b) {
+      return b.toString(16).padStart(2, '0');
+    }).join('').toUpperCase();
     var name = document.getElementById('fullname').value.trim();
     var message = 'Booking confirmed, ' + name + '! Your reference is ' + ref + ' for ' + selected.label +
       ' to ' + selected.dest.name + ', total $' + total() +
-      '. This is a demo project, so no data is stored or sent.';
+      ' USD. ' + document.getElementById('seat').selectedOptions[0].text + ' seat, ' +
+      bookingForm.querySelector('input[name="meal"]:checked').value + ' meal.';
+    try {
+      var saved = Travellers.saveTrip({
+        reference: ref, flight: selected.label, destination: selected.dest.name,
+        departure: state.depart, passengers: state.pax, total: total(), created: Date.now(),
+        tripType: state.trip === 'round' ? 'Round trip' : 'One-way'
+      });
+      message += saved ? ' Saved to your profile.' : ' Guest booking. Keep this reference for the demo.';
+    } catch {
+      message += ' Browser storage is unavailable. Keep this reference for the demo.';
+    }
 
     bookingForm.classList.remove('was-validated');
     bookingForm.reset();

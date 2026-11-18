@@ -1,4 +1,4 @@
-/* site.js - shared by all four pages (Assignment 5)
+/* site.js - shared navigation, theme and sound preferences
    1. Day / Night theme switch (class-based, remembered between visits)
    2. Sound effects (Web Audio API, no files needed) with a mute button
    3. Keyboard navigation for the navbar (arrow keys, Home, End)
@@ -34,7 +34,7 @@
   }
 
   /* ---------- Sound settings ---------- */
-  var muted = read(STORE_MUTE) === 'yes';
+  var muted = read(STORE_MUTE) !== 'no';
 
   /* =====================================================
      2. Sound effects

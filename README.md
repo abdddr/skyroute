@@ -1,127 +1,33 @@
-# SkyRoute - Flight Booking Website
+# SkyRoute
 
-**Web Technologies - Front-End Development** | Astana IT University | Team project
+Web Technologies final project, Astana IT University, SE-2502.
+Team members: Almukhan Abdrakhman and Tasbolat Kagan.
 
-SkyRoute is a responsive flight-booking website for nonstop domestic routes from Astana to nine cities in Kazakhstan. Visitors can search flights, browse and filter destinations, pick a flight, see a live price total and confirm a booking.
+SkyRoute is a six-page, browser-based flight-booking demonstration for nine domestic destinations from Astana. Flights, fares, bookings, enquiries and subscriptions are simulated. The arrival weather panel retrieves current modelled conditions from Open-Meteo.
 
-> SkyRoute is a course demo. Flights and prices are examples, and no data is stored or sent anywhere.
+## Run
 
-**Live website:** https://abdddr.github.io/skyroute/
-**Repository:** https://github.com/abdddr/skyroute
+Use the hosted site at https://abdddr.github.io/skyroute/ or start a local server from the extracted SkyRoute folder with `python3 -m http.server 8000` and open http://localhost:8000/. Use the same browser and origin for account and profile storage. Bootstrap, jQuery and the city illustrations ship with the project. Live weather requires network access. The account demo uses Web Crypto over HTTPS or localhost.
 
-## Team
+## Pages
 
-| Member | Group | Pages (HTML) | Scripts (JS) |
-|---|---|---|---|
-| Kagan Tasbolat | ['SE-2502'] | `index.html`, `destinations.html` | `js/index.js`, `js/destinations.js` |
-| Abdrakhman Almukhan | ['SE-2502'] | `booking.html`, `about.html` | `js/booking.js`, `js/about.js` |
+| Page | Purpose |
+| --- | --- |
+| index.html | Route, dates, trip type, passengers, cabin and fare-cap search. |
+| destinations.html | Nine illustrated destinations with combined city, region and fare filters. |
+| booking.html | Compare three departures, request destination weather, calculate an itemised demo trip and receive a booking reference. |
+| about.html | Team, project background, searchable FAQ, rating and local enquiry validation. |
+| account.html | Create a demo account and log in with the same email and password. |
+| profile.html | Review the signed-in traveller's details and saved demo bookings, then log out. |
 
-Each member owns two HTML pages. Shared files: `css/styles.css`, `images/`, this README.
+## Work division
 
-## Pages and features
+The original project assigns Home and Destinations to Tasbolat Kagan, and Booking and About to Almukhan Abdrakhman. Shared project assets include the stylesheet and city artwork. The final release extends those pages with a shared account/profile flow, JavaScript form checks and destination weather.
 
-| Page | What it does |
-|---|---|
-| `index.html` | Hero, flight search form (dates, passengers, class, max price, trip type), two-column and three-column grid sections, popular destinations card group, **live date and time**, **background colour button**, **subscription pop-up**, link to help |
-| `destinations.html` | Sidebar filters (region and price) that really filter the cards, a 9-image carousel, and 9 destination cards |
-| `booking.html` | Reads the search from the address bar, lists three nonstop flights, lets you choose one, shows a live total and confirms the booking |
-| `about.html` | About text, team cards, **JavaScript FAQ accordion**, **sign-up form with validation** (`#signup`), and a contact form (`#contact`) |
+## Data and dependencies
 
-How the pages work together: the search form on the home page and every "View Flights" button send the chosen city to `booking.html` (for example `booking.html?destination=Aktau`), and the booking page builds the matching flights.
+The client stores demo account details, a randomly salted PBKDF2-SHA256 password verifier, signed-in email, theme, sound preference and signed-in booking summaries in localStorage. Use fictional details. A local account simulation is suitable for coursework only. Search criteria travel in the booking URL. Guest bookings, enquiries and subscription demos are transient. Only the selected city's coordinates and requested weather variables go to the weather service.
 
-## Project structure
-
-```
-skyroute/
-  index.html
-  destinations.html
-  booking.html
-  about.html
-  css/
-    styles.css        custom CSS (contrast colours, image sizes, hero, hover, ticket cards)
-  js/
-    site.js           shared: night theme, sound effects, keyboard navigation (all pages)
-    index.js          search form dates, subscription pop-up, background colour, date and time, greeting, travel tips
-    destinations.js   region and price filters
-    booking.js        flights, selection, live total, confirmation
-    about.js          sign-up validation, FAQ accordion, contact form
-  images/             9 city illustrations (SVG)
-  README.md
-```
-
-## JavaScript features (Assignment 4)
-
-| Task | Where | Owner | How it works |
-|---|---|---|---|
-| 1. Form validation | `about.html` `#signup`, `js/about.js` | Abdrakhman | Required name and email, email format, password 8+ characters with a letter and a number, confirmation must match; messages appear under each field |
-| 2. Accordion | `about.html` FAQ, `js/about.js` | Abdrakhman | Answers are collapsed by default; a click animates `max-height` open or closed |
-| 3. Pop-up form | `index.html` Subscribe button, `js/index.js` | Kagan | Hidden overlay opens on click; closes with the X, a click outside, or Esc |
-| 4. Background colour | `index.html`, `js/index.js` | Kagan | Button cycles `body` through six light colours |
-| 5. Date and time | `index.html`, `js/index.js` | Kagan | `Date` object formatted like "October 19, 2026, 1:01 PM", refreshed every second |
-
-## JavaScript features (Assignment 5)
-
-| Feature | Where | How it works |
-|---|---|---|
-| Day / Night theme | `js/site.js`, `css/styles.css` | Navbar button sets `data-bs-theme` on `<html>`; choice saved in `localStorage` |
-| Sound effects | `js/site.js` | Web Audio API oscillator sounds (click, success, error, star); one sound at a time; Sound on/off button |
-| Keyboard navigation | `js/site.js` | `keydown` + `switch`: arrows, Home and End move focus through the navbar |
-| Greeting by time of day | `js/index.js` | `switch` on `new Date().getHours()` |
-| Travel tips | `js/index.js` | Array of objects, random tip on button click, tooltips added with `forEach` |
-| Star rating | `about.html`, `js/about.js` | `querySelectorAll` stars, colour and `aria-pressed`, message by `switch`, pop animation |
-| Async contact form | `js/about.js` | `fetch` POST to a test API with a callback; success or error shown without reload |
-| Sort flights | `js/booking.js` | `Array.sort` with a `switch` (time or price); cards fade in one by one |
-| Clear form button | `js/booking.js` | `querySelectorAll('input').forEach` empties the passenger fields |
-| Animations | `css/styles.css` | `pop`, `fade-in-up`, `bounce-in`, `shake`; disabled for reduced motion |
-
-## Technologies
-
-- HTML5 with semantic elements (`nav`, `main`, `section`, `article`, `aside`, `footer`, `fieldset`/`legend`)
-- CSS3: custom properties, media queries, `object-fit`
-- Flexbox through Bootstrap utilities (`d-flex`, `flex-column`, `flex-md-row`, `justify-content-*`, `gap-*`)
-- Bootstrap 5.3.3 from the jsDelivr CDN with integrity hashes (grid, navbar, forms, cards, carousel, buttons)
-- Plain JavaScript (no libraries)
-
-## Responsive design
-
-The layout is mobile-first and uses Bootstrap breakpoints.
-
-| Breakpoint | Starts at | What changes |
-|---|---|---|
-| `sm` | 576px | Destination cards go from 1 to 2 per row; feature boxes go to 2 per row |
-| `md` | 768px | Form fields sit side by side; destination cards 3 per row; flight cards become horizontal with a dashed ticket stub; carousel is taller |
-| `lg` | 992px | Navbar expands (hamburger below this); filter sidebar sits beside the content; `col-lg-6` and `col-lg-4` sections; carousel is tallest |
-
-Images use `object-fit: cover` with fixed heights, so they are never stretched. Wide content never causes sideways scrolling.
-
-## Accessibility
-
-- Skip-to-content link, one `h1` per page, headings in order
-- Every form control has a linked `<label>`; every image has `alt` text
-- Icon-only controls (hamburger, carousel arrows and dots) have `aria-label` or hidden text
-- `aria-current="page"` on the active menu link; `aria-live` regions for filter counts, booking summary and messages
-- Form errors are shown in text and focus moves to the first problem
-- Colours checked against WCAG AA (4.5:1): body text 15.4:1, secondary text 8.2:1, blue buttons and links 6.4:1, white on the hero 6.4:1 or better
-- Hover animation is switched off for users who prefer reduced motion
-
-## How to run
-
-1. Download or clone the repository.
-2. Open `index.html` in a browser. No build step or server is needed.
-3. An internet connection is needed for Bootstrap (CDN).
-
-## Deployment (GitHub Pages)
-
-1. Push the project to the repository with `index.html` in the root folder (keep the `css/`, `js/` and `images/` folders).
-2. Open **Settings -> Pages**.
-3. Set **Source** to **Deploy from a branch**, choose the `main` branch and the `/ (root)` folder, then save.
-4. After about a minute the site is live at the URL at the top of this file.
-
-## Known limitations
-
-- Demo project: flight data is generated in `js/booking.js`. Only the contact form sends data (to a public test API that stores nothing); the other forms stay in the browser.
-- Fares, flight times and airports are examples.
-
-## Credits
-
-Built with [Bootstrap 5.3](https://getbootstrap.com/docs/5.3/). City illustrations are original SVG drawings made for this project.
+- Repository: https://github.com/abdddr/skyroute
+- Weather data and documentation: https://open-meteo.com/en/docs
+- Bootstrap 5.3.3 and jQuery 4.0.0 are bundled under their MIT licenses in vendor/.
